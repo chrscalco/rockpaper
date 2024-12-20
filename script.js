@@ -29,55 +29,106 @@ function getHumanChoice () {
 let humanScore = 0;
 let computerScore = 0;
 
-function playRound(humanChoice, computerChoice) {
+function playRound(buttonId, computerChoice) {
 
-    if (humanChoice.toLowerCase() == computerChoice.toLowerCase()) {
-        console.log("Its a draw!");
-        return;
-    } else if ((humanChoice.toLowerCase() == "rock" ) && (computerChoice == "Paper")) {
-        console.log("Computer wins!");
-        computerScore++;
-        return;
-    } else  if ((humanChoice.toLowerCase() == "rock" ) && (computerChoice == "Scissors")) { 
-        console.log("Human wins!");
-        humanScore++;
-        return;
-    } else if ((humanChoice.toLowerCase() == "paper" ) && (computerChoice == "Rock")) {
-        console.log("Human wins!");
-        humanScore++;
-        return;
-    } else if ((humanChoice.toLowerCase() == "paper" ) && (computerChoice == "Scissors")) {
-        console.log("Computer wins!");
-        computerScore++;
-        return;
-    } else if ((humanChoice.toLowerCase() == "scissors" ) && (computerChoice == "Rock")) {
-        console.log("Computer wins!");
-        computerScore++;
-        return;
-    } else if ((humanChoice.toLowerCase() == "scissors" ) && (computerChoice == "Paper")) {
-        console.log("Human wins!");
-        humanScore++;
-        return;
-    } else {
-        return;
-    }
+        if (buttonId  === computerChoice.toLowerCase()) {
+            scoreLine.textContent = "Its a draw!";
+            gameInfo.appendChild(scoreLine);
+            scoreLine.textContent = currentScore();
+            return;
+        } else if ((buttonId == "rock" ) && (computerChoice == "Paper")) {
+            scoreLine.textContent = "Computer wins!";
+            gameInfo.appendChild(scoreLine);
+            computerScore++;
+            scoreLine.textContent = currentScore();
+            return;
+        } else  if ((buttonId == "rock" ) && (computerChoice == "Scissors")) { 
+            scoreLine.textContent = "Human wins!";
+            gameInfo.appendChild(scoreLine);
+            humanScore++;
+            scoreLine.textContent = currentScore();
+            return;
+        } else if ((buttonId == "paper" ) && (computerChoice == "Rock")) {
+            scoreLine.textContent = "Human wins!";
+            gameInfo.appendChild(scoreLine);
+            humanScore++;
+            scoreLine.textContent = currentScore();
+            return;
+        } else if ((buttonId == "paper" ) && (computerChoice == "Scissors")) {
+            scoreLine.textContent = "Computer wins!";
+            gameInfo.appendChild(scoreLine);
+            computerScore++;
+            scoreLine.textContent = currentScore();
+            return;
+        } else if ((buttonId == "scissors" ) && (computerChoice == "Rock")) {
+            scoreLine.textContent = "Computer wins!";
+            gameInfo.appendChild(scoreLine);
+            computerScore++;
+            scoreLine.textContent = currentScore();
+            return;
+        } else if ((buttonId == "scissors" ) && (computerChoice == "Paper")) {
+            scoreLine.textContent = "Human wins!";
+            gameInfo.appendChild(scoreLine);
+            humanScore++;
+            scoreLine.textContent = currentScore();
+            return;
+        } else {
+            return;
+        }
+
 }
 
-function playGame() {
-    playRound(getHumanChoice(),getComputerChoice());
-    playRound(getHumanChoice(),getComputerChoice());
-    playRound(getHumanChoice(),getComputerChoice());
-    playRound(getHumanChoice(),getComputerChoice());
-    playRound(getHumanChoice(),getComputerChoice());
+const container = document.querySelector("div");
+const content = document.createElement("div");
 
-    if (humanScore == computerScore) {
-        console.log ("Its a tie! " + humanScore + "-" + computerScore);
-        return;
-    } else if (humanScore > computerScore) {
-        console.log ("Human wins! " + humanScore + "-" + computerScore);
-        return;
-    } else {
-        console.log("Computer wins! " + humanScore + "-" + computerScore);
-        return;
-    }
+content.classList.add("content");
+container.appendChild(content);
+
+const rock = document.createElement("button");
+const paper = document.createElement("button");
+const scissors = document.createElement("button");
+
+rock.textContent = "Select Rock";
+paper.textContent = "Select Paper";
+scissors.textContent = "Select Scissors";
+
+rock.setAttribute("id", "rock");
+paper.setAttribute("id", "paper");
+scissors.setAttribute("id", "scissors");
+
+content.appendChild(rock);
+content.appendChild(paper);
+content.appendChild(scissors);
+
+const buttons = document.querySelectorAll("button");
+
+buttons.forEach(function(e) {
+    e.addEventListener("click", () => {
+        console.log(event.target.id);
+        playRound(event.target.id, getComputerChoice());
+        if (humanScore > 4 || computerScore > 4) {
+            if (humanScore === 5) {
+                alert("Human wins!");
+            } else {
+                alert ("Computer wins!")
+            }
+        
+            humanScore = 0;
+            computerScore = 0;
+        
+        }
+
+    })});
+
+const gameInfo = document.createElement("div");
+const scoreLine = document.createElement("p");
+ 
+gameInfo.textContent = "Game Progress";
+scoreLine.textContent = "Human: " + humanScore + " Computer: " + computerScore;
+
+gameInfo.appendChild(scoreLine);
+container.appendChild(gameInfo);
+
+function currentScore() {
+    return "Human: " + humanScore + " Computer: " + computerScore;
 }
